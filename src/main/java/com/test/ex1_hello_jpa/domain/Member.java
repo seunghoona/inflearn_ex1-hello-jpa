@@ -1,24 +1,46 @@
 package com.test.ex1_hello_jpa.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GeneratorType;
+
+import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
+@Data
+
+@SequenceGenerator(name ="memeber_seq_generator", sequenceName = "member_seq")
 public class Member {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "memeber_seq_generator")
     private long id;
-    private String name;
 
-    public long getId() {
-        return id;
-    }
-    public void setId(long id) {
-        this.id = id;
-    }
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
+    @Column(name = "name")
+    private String userName;
+
+    private Integer age;
+
+    //ENUM 클래스사용
+    @Enumerated(EnumType.STRING)
+    private RoleType roleType;
+    //Date,Calendal를 사용시 아래와 같은 방법으로 처리
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createDate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastModifiedDate;
+
+
+    //1.8부터는
+    private LocalDate testLocalDate;
+    private LocalDateTime testLocalDateTime;
+
+    @Lob
+    private String descroption;
+
 }

@@ -1,5 +1,6 @@
 package com.test.ex1_hello_jpa;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -11,7 +12,6 @@ import com.test.ex1_hello_jpa.domain.Member;
 
 /**
  * Hello world!
- *
  */
 public class App {
     public static void main(String[] args) {
@@ -49,6 +49,7 @@ public class App {
              */
 
             //페이징처리
+/*
             List<Member> result = em.createQuery("SELECT m FROM Member AS m", Member.class)
                     .setFirstResult(1)
                     .setMaxResults(10)
@@ -56,7 +57,73 @@ public class App {
             result.stream().forEach((s) -> {
                 System.out.println(s.getId() + "::::" + s.getName());
             });
+*/
+/*  [ 1차 캐시]
+            *   실제적으로 DB에 조회해서 데이터를 가져오는 것이 아니라
+            *   1차 캐시된 데이터를 가져온다.
 
+                //비영속
+                Member member = new Member();
+                member.setId(101L);
+                member.setName("HelloJPA");
+
+                //영속
+                em.persist(member);
+
+
+               Member findMember  = em.find(Member.class , 101L);
+               System.out.println(findMember.getId());
+               System.out.println(findMember.getName());
+*/
+
+/*            //영속
+            //JPA는 데이터를 조회할 떄 영속성 컨텍스트에 저장해둔다.
+            Member findMember1 = em.find(Member.class, 101L);
+            Member findMember2 = em.find(Member.class, 101L);
+
+            System.out.println(findMember1 == findMember2);
+*/
+
+/*          
+            [쓰기지연]  
+            Member member  = em.find(Member.class,101L);
+            member.setName("나승후1111");
+            
+            
+*/
+/*            //[em.flush()]
+            Member member = new Member();
+            member.setName("친구 ");*/
+
+
+
+//            Member member = em.find(Member.class , 101L);
+//            member.setName("AAAAAA");
+//
+//            //JPA에서 관리하지 않는다.
+//            em.detach(member);
+//            //영속 데이터를 전부 삭제
+//            em.clear();
+//            //em.close()
+//
+//            Member member1 = em.find(Member.class,101L);
+//            System.out.println(member == member1);
+
+
+ /*           Member member = em.find(Member.class,101L);
+            System.out.println(member.toString());
+
+            String [] strings = {"ff","ad"};
+            List<String> l = Arrays.asList();*/
+
+            //비영속
+            Member member = new Member();
+
+            member.setUserName("HelloJPA");
+
+            //영속
+            em.persist(member);
+            tx.commit();
             /* 실제 코드가 들어가는 부분 종료 */
         }catch(Exception e){
             tx.rollback();
