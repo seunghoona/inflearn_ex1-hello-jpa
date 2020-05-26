@@ -9,8 +9,8 @@
 			<!-- 필수 속성 -->
 			<!--javax라고 쓰여져 있는 것은 표준이라는 의미-->
 			<property name="javax.persistence.jdbc.driver" value="oracle.jdbc.driver.OracleDriver" />
-			<property name="javax.persistence.jdbc.user" value="jpa_study" />
-			<property name="javax.persistence.jdbc.password" value="jpa_study" />
+			<property name="javax.persistence.jdbc.user" value="hr" />
+			<property name="javax.persistence.jdbc.password" value="hr" />
 			<property name="javax.persistence.jdbc.url" value="Jdbc:oracle:thin:@nacinaci.cafe24.com:1522:xe" />
 			<!--방언 바꾸기 -->
 			<!-- <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" /> -->

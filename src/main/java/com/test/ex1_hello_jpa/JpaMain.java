@@ -27,23 +27,43 @@ public class JpaMain {
             em.persist(team);
 
             Member member = new Member();
+            member.setUsername("member2");
             member.setTeam(team);
-            member.setUsername("member1");
             em.persist(member);
+
+            //양쪽에 값을 넣어주는 것이 중요하다
+            // em flush 또는 em.clear를 사용하지 않으면 1차캐시 상태에서의 데이터를
+            //가져와서 데이터를 조회 하기 때문에
+
+
+
 
             //db에 있는 정보를 가져오는 법
             //그렇지 않으면 실제 영속성 컨텍스트에서 가져온다 .
-            em.flush();
-            em.clear();
-
-            //외래키의 존재를 찾아서 조회하는 것이 아니라 직접 조회에서 가져올 수 있다.
-            Member findMember = em.find(Member.class, member.getId());
-            System.out.println("findMember = " + findMember.getUsername());
+/*            em.flush();
+            em.clear();*/
 
 
-            //반대로 값을 찾는 것이 가능하다.
-            List<Member> members = findMember.getTeam().getMembers();
-            members.stream().forEach(x-> System.out.println("x.getUsername() = " + x.getUsername()));
+            //리스트에 값을 셋팅하지 않는데도 값이 출력이 된다.
+
+            Team findTeam = em.find(Team.class, team.getId());
+            //객체를 가져와서 반복을 돌릴 떄
+            //JPA에서 members를 사용하는 시점에 쿼리를 한번 날립니다.
+            List<Member> members = findTeam.getMembers();
+            for (Member member1 : members) {
+                System.out.println("member1.getUsername() = " + member1.getUsername());
+            }
+
+
+            //
+//            //외래키의 존재를 찾아서 조회하는 것이 아니라 직접 조회에서 가져올 수 있다.
+//            Member findMember = em.find(Member.class, member.getId());
+//            System.out.println("findMember = " + findMember.getUsername());
+//
+//
+//            //반대로 값을 찾는 것이 가능하다.
+//            List<Member> members = findMember.getTeam().getMembers();
+//            members.stream().forEach(x-> System.out.println("x.getUsername() = " + x.getUsername()));
             tx.commit();
             /* 실제 코드가 들어가는 부분 종료 */
         }catch(Exception e){

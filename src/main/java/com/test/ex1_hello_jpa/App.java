@@ -119,7 +119,7 @@ public class App {
             //비영속
             Member member = new Member();
 
-            /*member.setUserName("HelloJPA");*/
+//            member.setUserName("HelloJPA");
             //영속
             em.persist(member);
             tx.commit();
