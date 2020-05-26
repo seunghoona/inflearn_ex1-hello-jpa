@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.util.List;
 
 public class JpaMain {
     public static void main(String[] args) {
@@ -39,6 +40,10 @@ public class JpaMain {
             Member findMember = em.find(Member.class, member.getId());
             System.out.println("findMember = " + findMember.getUsername());
 
+
+            //반대로 값을 찾는 것이 가능하다.
+            List<Member> members = findMember.getTeam().getMembers();
+            members.stream().forEach(x-> System.out.println("x.getUsername() = " + x.getUsername()));
             tx.commit();
             /* 실제 코드가 들어가는 부분 종료 */
         }catch(Exception e){
