@@ -2,9 +2,7 @@ package com.test.ex1_hello_jpa.domain;
 
 
 import com.sun.xml.internal.ws.api.ha.StickyFeature;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GeneratorType;
 import org.omg.PortableInterceptor.INACTIVE;
 
@@ -16,25 +14,17 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Data
 public class Member {
 
     @Id
     @GeneratedValue
+    @Column(name="MEMBER_ID")
+    @Getter @Setter
     private Long id;
 
     @Column(name = "USERNAME")
+    @Getter @Setter
     private String username;
-
-    @JoinColumn(name = "TEAM_ID")
-    @ManyToOne
-    private Team team;
-
-
-    public void setTeam(Team team){
-        this.team =team;
-        team.getMembers().add(this);
-    }
 
 }
 
