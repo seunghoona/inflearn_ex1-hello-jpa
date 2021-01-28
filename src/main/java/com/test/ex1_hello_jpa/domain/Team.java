@@ -22,12 +22,7 @@ public class Team {
     @Getter @Setter
     private String name;
 
-
-    @OneToMany
-    @JoinColumn(name="TEAM_ID")
     @Getter @Setter
+    @OneToMany(mappedBy = "team")
     private List<Member> members = new ArrayList<>();
-
-
-
 }
