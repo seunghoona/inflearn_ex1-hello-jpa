@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class JpaMain {
@@ -23,24 +24,11 @@ public class JpaMain {
         tx.begin();
         try {
 
-            Movie movie = new Movie();
+            Member mber = new Member();
+            mber.setCreateBy("나승후");
+            mber.setLastModifyDate(LocalDateTime.now());
 
-            movie.setDirector("A감독");
-            movie.setActor("B배우");
-            movie.setName("바람과 함께 사라지다");
-            movie.setPrice(122220);
-
-            em.persist(movie);
-            //영속성 컨텍스트 삭제
-            em.flush();
-            em.clear();
-
-
-            Movie movie1 = em.find(Movie.class, movie.getId());
-
-            System.out.println("movie1 = " + movie1);
-
-
+            em.persist(mber);
             tx.commit();
             /* 실제 코드가 들어가는 부분 종료 */
         }catch(Exception e){
