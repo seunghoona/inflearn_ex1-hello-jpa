@@ -1,6 +1,8 @@
 package com.test.ex1_hello_jpa;
 
+import com.test.ex1_hello_jpa.domain.Item;
 import com.test.ex1_hello_jpa.domain.Member;
+import com.test.ex1_hello_jpa.domain.Movie;
 import com.test.ex1_hello_jpa.domain.Team;
 
 import javax.persistence.EntityManager;
@@ -21,15 +23,22 @@ public class JpaMain {
         tx.begin();
         try {
 
-            Team team = new Team();
-            team.setName("teamA");
+            Movie movie = new Movie();
 
-            em.persist(team);
+            movie.setDirector("A감독");
+            movie.setActor("B배우");
+            movie.setName("바람과 함께 사라지다");
+            movie.setPrice(122220);
 
-            Member member = new Member();
-            member.setUsername("member1");
-            em.persist(member);
+            em.persist(movie);
+            //영속성 컨텍스트 삭제
+            em.flush();
+            em.clear();
 
+
+            Movie movie1 = em.find(Movie.class, movie.getId());
+
+            System.out.println("movie1 = " + movie1);
 
 
             tx.commit();
