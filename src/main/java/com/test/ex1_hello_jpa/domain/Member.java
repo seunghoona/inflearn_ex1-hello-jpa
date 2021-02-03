@@ -15,28 +15,22 @@ import java.util.List;
 import java.util.concurrent.locks.Lock;
 
 @Entity
+@Data
 public class Member extends BaseEntity{
 
     @Id
     @GeneratedValue
     @Column(name="MEMBER_ID")
-    @Getter @Setter
     private Long id;
 
     @Column(name = "USERNAME")
-    @Getter @Setter
+
     private String username;
 
     @ManyToOne
     @JoinColumn(name = "TEAM_ID")
     private Team team;
 
-    @OneToOne
-    @JoinColumn(name = "LOCKER_ID")
-    private Locker locker;
-
-    @OneToMany(mappedBy = "member")
-    private List<Member_Product> member_products = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(name = "MEMBER_PRODUCT")

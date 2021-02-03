@@ -24,11 +24,34 @@ public class JpaMain {
         tx.begin();
         try {
 
-            Member mber = new Member();
-            mber.setCreateBy("나승후");
-            mber.setLastModifyDate(LocalDateTime.now());
 
-            em.persist(mber);
+            Member member = new Member();
+            member.setUsername("hello");
+            em.persist(member);
+
+            em.flush();
+            em.clear();
+
+            //
+ /*           em.find(Member.class, member.getId());
+            System.out.println("member = " + member.getUsername());
+            System.out.println("member.getId() = " + member.getId());*/
+
+
+            // 프록시에서 값을 가져오면 하이버네이트는 두 값이 동일하는 것을 증명하기 위해서
+            // em.find를 사용하여도 프록시를 가져오게 된다.
+            Member reference = em.getReference(Member.class, member.getId());
+            System.out.println("findMemberClass" + reference.getClass());
+
+            Member findMember = em.find(Member.class, member.getId());
+            System.out.println("findMemberClass" + findMember.getClass());
+            System.out.println("(findMember == reference : " + (findMember == reference));
+
+            //프록시 인스턴스 초기화여부 확인
+            boolean loaded = emf.getPersistenceUnitUtil().isLoaded(findMember);
+            System.out.println("loaded = " + loaded);
+
+
             tx.commit();
             /* 실제 코드가 들어가는 부분 종료 */
         }catch(Exception e){
@@ -37,5 +60,18 @@ public class JpaMain {
             em.clear();
             em.close();
         }
+    }
+
+    private static void printMember(Member member) {
+        System.out.println("member = " + member.getUsername());
+    }
+
+    private static void printMemberAndTeam(Member member) {
+        String userName = member.getUsername();
+        System.out.println("userName = " + userName);
+
+        Team team = member.getTeam();
+        System.out.println("team = " + team);
+
     }
 }

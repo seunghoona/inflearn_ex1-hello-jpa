@@ -13,6 +13,5 @@ public class Locker {
     @Column(name="name")
     private String name;
 
-    @OneToOne(mappedBy = "locker")
-    private Member member;
+
 }
