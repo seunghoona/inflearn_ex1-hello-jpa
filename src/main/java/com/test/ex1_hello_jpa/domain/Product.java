@@ -1,21 +1,22 @@
 package com.test.ex1_hello_jpa.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
+@Getter @Setter
 public class Product {
 
-    @Id
+
+    @Id @GeneratedValue
     private Long id;
 
     private String name;
 
-    @OneToMany(mappedBy = "product")
-    private List<Member_Product> member_products = new ArrayList<>();
+
 
 }

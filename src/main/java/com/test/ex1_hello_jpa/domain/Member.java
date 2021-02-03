@@ -38,6 +38,11 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Member_Product> member_products = new ArrayList<>();
 
+    @ManyToMany
+    @JoinTable(name = "MEMBER_PRODUCT")
+    private List<Product> products = new ArrayList<>();
+
+
 }
 
 
