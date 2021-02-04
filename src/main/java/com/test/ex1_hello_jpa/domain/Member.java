@@ -36,6 +36,23 @@ public class Member extends BaseEntity{
     @JoinTable(name = "MEMBER_PRODUCT")
     private List<Product> products = new ArrayList<>();
 
+    @Embedded
+    private Period period;
+
+    @Embedded
+    private Adress adress;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "city"
+                    ,column = @Column(name = "work_city")),
+            @AttributeOverride(name = "zipcode"
+                    ,column = @Column(name = "work_zipcode")),
+            @AttributeOverride(name = "street"
+                    ,column = @Column(name = "work_street")),
+
+    })
+    private Adress workAdress;
 
 }
 

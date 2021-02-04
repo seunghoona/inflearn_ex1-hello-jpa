@@ -18,23 +18,32 @@ public class JpaMain {
         tx.begin();
         try {
 
+            Adress adress = Adress.builder()
+                    .city("서울")
+                    .street("허준로")
+                    .zipcode("176")
+                    .build();
 
-            Child child1 = new Child();
-            Child child2 = new Child();
+            Member member = new Member();
+            member.setUsername("나승후a");
+            member.setPeriod(Period.builder()
+                    .stDateTime(LocalDateTime.now())
+                    .enDateTime(LocalDateTime.now())
+                                    .build());
+            member.setAdress(adress);
 
-            Parent parent = new Parent();
-            parent.addChild(child1);
-            parent.addChild(child2);
+            em.persist(member);
+            Member member2 = new Member();
+            member2.setUsername("나승후a");
+            member2.setPeriod(Period.builder()
+                    .stDateTime(LocalDateTime.now())
+                    .enDateTime(LocalDateTime.now())
+                    .build());
+            member2.setAdress(adress);
+            em.persist(member2);
 
-            em.persist(parent);
 
-
-            em.flush();
-            em.clear();
-
-
-            Parent parent1 = em.find(Parent.class, parent.getId());
-            parent1.getChildList().remove(0);
+            member.setAdress(Adress.builder().city("미국").build());
 
 
             tx.commit();
