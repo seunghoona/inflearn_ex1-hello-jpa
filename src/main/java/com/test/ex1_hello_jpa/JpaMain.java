@@ -1,14 +1,8 @@
 package com.test.ex1_hello_jpa;
 
-import com.test.ex1_hello_jpa.domain.Item;
-import com.test.ex1_hello_jpa.domain.Member;
-import com.test.ex1_hello_jpa.domain.Movie;
-import com.test.ex1_hello_jpa.domain.Team;
+import com.test.ex1_hello_jpa.domain.*;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -25,31 +19,22 @@ public class JpaMain {
         try {
 
 
-            Member member = new Member();
-            member.setUsername("hello");
-            em.persist(member);
+            Child child1 = new Child();
+            Child child2 = new Child();
+
+            Parent parent = new Parent();
+            parent.addChild(child1);
+            parent.addChild(child2);
+
+            em.persist(parent);
+
 
             em.flush();
             em.clear();
 
-            //
- /*           em.find(Member.class, member.getId());
-            System.out.println("member = " + member.getUsername());
-            System.out.println("member.getId() = " + member.getId());*/
 
-
-            // 프록시에서 값을 가져오면 하이버네이트는 두 값이 동일하는 것을 증명하기 위해서
-            // em.find를 사용하여도 프록시를 가져오게 된다.
-            Member reference = em.getReference(Member.class, member.getId());
-            System.out.println("findMemberClass" + reference.getClass());
-
-            Member findMember = em.find(Member.class, member.getId());
-            System.out.println("findMemberClass" + findMember.getClass());
-            System.out.println("(findMember == reference : " + (findMember == reference));
-
-            //프록시 인스턴스 초기화여부 확인
-            boolean loaded = emf.getPersistenceUnitUtil().isLoaded(findMember);
-            System.out.println("loaded = " + loaded);
+            Parent parent1 = em.find(Parent.class, parent.getId());
+            parent1.getChildList().remove(0);
 
 
             tx.commit();
