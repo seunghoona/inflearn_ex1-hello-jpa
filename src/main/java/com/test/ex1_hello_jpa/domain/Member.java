@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.locks.Lock;
 
+import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
@@ -45,10 +46,14 @@ public class Member extends BaseEntity{
     @Column(name="FOOD_NAME")
     private Set<String> favoriteFood = new HashSet<>();
 
-    @ElementCollection
+/*    @ElementCollection
     @CollectionTable(name="address", joinColumns =
     @JoinColumn(name = "MEMBER_ID"))
-    private List<Adress> adresses = new ArrayList<>();
+    private List<Adress> adresses = new ArrayList<>();*/
+
+    @OneToMany(cascade = ALL, orphanRemoval = true )
+    @JoinColumn(name="MEMBER_ID")
+    private List<AdressEntity> adresses = new ArrayList<>();
 
     @Embedded
     private Period period;

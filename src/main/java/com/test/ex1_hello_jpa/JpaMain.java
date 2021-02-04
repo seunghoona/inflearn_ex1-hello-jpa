@@ -30,8 +30,8 @@ public class JpaMain {
             member.getFavoriteFood().add("족발");
             member.getFavoriteFood().add("피자");
 
-            member.getAdresses().add(new Adress("중국","상하이","09203"));
-            member.getAdresses().add(new Adress("일본","도쿄","12939"));
+            member.getAdresses().add(new AdressEntity("중국","상하이","09203"));
+            member.getAdresses().add(new AdressEntity("일본","도쿄","12939"));
 
             em.persist(member);
 
@@ -49,8 +49,8 @@ public class JpaMain {
             findMember.getFavoriteFood().add("한식");
 
             //ArrayList를 삭제
-            findMember.getAdresses().remove(new Adress("중국", "상하이", "09203"));
-            findMember.getAdresses().add(new Adress("아프리카", "품바야", "09203"));
+            findMember.getAdresses().remove(new AdressEntity("중국", "상하이", "09203"));
+            findMember.getAdresses().add(new AdressEntity("아프리카", "품바야", "09203"));
             
 
             tx.commit();
