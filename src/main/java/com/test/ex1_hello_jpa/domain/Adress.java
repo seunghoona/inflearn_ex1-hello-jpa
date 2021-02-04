@@ -9,10 +9,11 @@ import javax.persistence.Embeddable;
 import java.util.Objects;
 
 @Embeddable
-@Builder
+
 @AllArgsConstructor
 @NoArgsConstructor
-
+@Data
+@Builder
 public class Adress {
     private String city;
     private String street;

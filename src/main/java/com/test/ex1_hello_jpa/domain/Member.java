@@ -9,10 +9,10 @@ import org.omg.PortableInterceptor.INACTIVE;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.locks.Lock;
+
+import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Data
@@ -27,32 +27,31 @@ public class Member extends BaseEntity{
 
     private String username;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "TEAM_ID")
     private Team team;
 
 
-    @ManyToMany
+ /*   @ManyToMany
     @JoinTable(name = "MEMBER_PRODUCT")
-    private List<Product> products = new ArrayList<>();
+    private List<Product> products = new ArrayList<>();*/
+
+    @Embedded
+    private Adress HomeAdress;
+
+    @ElementCollection
+    @CollectionTable(name = "FAVORTE_FOOD", joinColumns =
+    @JoinColumn(name = "MEMBER_ID"))
+    @Column(name="FOOD_NAME")
+    private Set<String> favoriteFood = new HashSet<>();
+
+    @ElementCollection
+    @CollectionTable(name="address", joinColumns =
+    @JoinColumn(name = "MEMBER_ID"))
+    private List<Adress> adresses = new ArrayList<>();
 
     @Embedded
     private Period period;
-
-    @Embedded
-    private Adress adress;
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "city"
-                    ,column = @Column(name = "work_city")),
-            @AttributeOverride(name = "zipcode"
-                    ,column = @Column(name = "work_zipcode")),
-            @AttributeOverride(name = "street"
-                    ,column = @Column(name = "work_street")),
-
-    })
-    private Adress workAdress;
 
 }
 
