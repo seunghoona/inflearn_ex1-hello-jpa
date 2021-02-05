@@ -1,12 +1,13 @@
 package com.test.ex1_hello_jpa;
 
-import com.test.ex1_hello_jpa.domain.*;
+import com.test.ex1_hello_jpa.domain.Member;
+import com.test.ex1_hello_jpa.domain.Team;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.HashSet;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
 import java.util.List;
-import java.util.Set;
 
 public class JpaMain {
     public static void main(String[] args) {
@@ -19,45 +20,15 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try {
-            Member member = new Member();
-
-            member.setUsername("member1");
-            Adress adress = new Adress("한국", "허준로", "102302");
-            member.setHomeAdress(adress);
+            List<Member> resultList = em.createQuery("select m from Member m WHERE m.username LIKE '%kim%'", Member.class).getResultList();
 
 
-            member.getFavoriteFood().add("치킨");
-            member.getFavoriteFood().add("족발");
-            member.getFavoriteFood().add("피자");
-
-            member.getAdresses().add(new AdressEntity("중국","상하이","09203"));
-            member.getAdresses().add(new AdressEntity("일본","도쿄","12939"));
-
-            em.persist(member);
-
-            em.flush();
-            em.clear();
-            System.out.println("========Start===========");
-            Member findMember = em.find(Member.class, member.getId());
-
-
-            findMember.setHomeAdress(new Adress("미국",adress.getStreet(),adress.getZipcode()));
-
-
-            //컬렉션업데이트 치킨을 -> 한식으로 바꾸고 싶다면
-            findMember.getFavoriteFood().remove("치킨");
-            findMember.getFavoriteFood().add("한식");
-
-            //ArrayList를 삭제
-            findMember.getAdresses().remove(new AdressEntity("중국", "상하이", "09203"));
-            findMember.getAdresses().add(new AdressEntity("아프리카", "품바야", "09203"));
-            
 
             tx.commit();
             /* 실제 코드가 들어가는 부분 종료 */
-        }catch(Exception e){
+        } catch (Exception e) {
             tx.rollback();
-        }finally {
+        } finally {
             em.clear();
             em.close();
         }
