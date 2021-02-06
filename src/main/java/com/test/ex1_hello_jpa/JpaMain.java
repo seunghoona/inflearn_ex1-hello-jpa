@@ -3,10 +3,7 @@ package com.test.ex1_hello_jpa;
 import com.test.ex1_hello_jpa.domain.Member;
 import com.test.ex1_hello_jpa.domain.Team;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -23,16 +20,53 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try {
-            //사용 준비
-            CriteriaBuilder cb = em.getCriteriaBuilder();
-            CriteriaQuery<Member> query = cb.createQuery(Member.class);
+            Team team = new Team();
+            team.setName("TeamA");
+            em.persist(team);
 
-            //루트 클래스(조회를 시작한 클래스)
-            Root<Member> m = query.from(Member.class);
-            CriteriaQuery<Member> cq = query.select(m).where(cb.equal(m.get("username"), "kim"));
+            Team team3 = new Team();
+            team3.setName("TeamC");
+            em.persist(team3);
 
-            List<Member> resultList = em.createQuery(cq).getResultList();
+            Member member1 = new Member();
+            member1.setUsername("관리자1");
+            member1.setTeam(team);
+            em.persist(member1);
 
+            Member member2 = new Member();
+            member2.setUsername("관리자2");
+            member2.setTeam(team);
+            em.persist(member2);
+
+            Member member3 = new Member();
+            member3.setUsername("관리자2");
+            member3.setTeam(team3);
+            em.persist(member3);
+
+
+            em.flush();
+            em.clear();
+/*
+
+            // N+1의 문제가 발생할 수 있기 때문에
+            List<Member> resultList1 = em.createQuery("SELECT  m From Member AS m join fetch m.team" , Member.class).getResultList();
+
+            for (Member member : resultList1) {
+                System.out.println("member = " + member.getUsername() + " , Member.team = "+ member.getTeam().getName());
+                //회원1 ,팀A(SQL)
+                //회원2, 팀B(1차캐시)
+                //회원3, 팀(SQL)
+            }
+
+
+
+            List<Member> resultList = em.createQuery("SELECT t.* , m.* FROM Member m join fetch m.team t", Member.class).getResultList();
+
+            for (Member member : resultList) {
+                System.out.println("member = " + member);
+            }
+
+*/
 
 
 
