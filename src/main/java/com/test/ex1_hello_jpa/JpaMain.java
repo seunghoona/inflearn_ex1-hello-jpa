@@ -46,28 +46,16 @@ public class JpaMain {
 
             em.flush();
             em.clear();
-/*
 
-            // N+1의 문제가 발생할 수 있기 때문에
-            List<Member> resultList1 = em.createQuery("SELECT  m From Member AS m join fetch m.team" , Member.class).getResultList();
+            //일대 다 관계는 데이터가 뻥튀기 될 수 있기 때문에 중복제거를 해줘야한다.
+            List<Team> resultList = em.createQuery("SELECT  DISTINCT  t FROM Team t join fetch t.members m", Team.class).getResultList();
 
-            for (Member member : resultList1) {
-                System.out.println("member = " + member.getUsername() + " , Member.team = "+ member.getTeam().getName());
-                //회원1 ,팀A(SQL)
-                //회원2, 팀B(1차캐시)
-                //회원3, 팀(SQL)
+            for (Team team1 : resultList) {
+                System.out.println("team1 = " + team1.getName() + "teamSize = " + team1.getMembers().size());
+                for (Member member : team1.getMembers()) {
+                    System.out.println("member = " + member);
+                }
             }
-
-
-
-            List<Member> resultList = em.createQuery("SELECT t.* , m.* FROM Member m join fetch m.team t", Member.class).getResultList();
-
-            for (Member member : resultList) {
-                System.out.println("member = " + member);
-            }
-
-*/
-
 
 
             tx.commit();
