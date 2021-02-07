@@ -32,29 +32,6 @@ public class Member extends BaseEntity{
     @JoinColumn(name = "TEAM_ID")
     private Team team;
 
-
- /*   @ManyToMany
-    @JoinTable(name = "MEMBER_PRODUCT")
-    private List<Product> products = new ArrayList<>();*/
-
-    @Embedded
-    private Adress HomeAdress;
-
-    @ElementCollection
-    @CollectionTable(name = "FAVORTE_FOOD", joinColumns =
-    @JoinColumn(name = "MEMBER_ID"))
-    @Column(name="FOOD_NAME")
-    private Set<String> favoriteFood = new HashSet<>();
-
-/*    @ElementCollection
-    @CollectionTable(name="address", joinColumns =
-    @JoinColumn(name = "MEMBER_ID"))
-    private List<Adress> adresses = new ArrayList<>();*/
-
-    @OneToMany(cascade = ALL, orphanRemoval = true )
-    @JoinColumn(name="MEMBER_ID")
-    private List<AdressEntity> adresses = new ArrayList<>();
-
     @Embedded
     private Period period;
 

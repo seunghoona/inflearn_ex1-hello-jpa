@@ -1,5 +1,7 @@
 package com.test.ex1_hello_jpa;
 
+import com.test.ex1_hello_jpa.domain.Book;
+import com.test.ex1_hello_jpa.domain.Item;
 import com.test.ex1_hello_jpa.domain.Member;
 import com.test.ex1_hello_jpa.domain.Team;
 
@@ -23,17 +25,34 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try {
-            //사용 준비
-            CriteriaBuilder cb = em.getCriteriaBuilder();
-            CriteriaQuery<Member> query = cb.createQuery(Member.class);
 
-            //루트 클래스(조회를 시작한 클래스)
-            Root<Member> m = query.from(Member.class);
-            CriteriaQuery<Member> cq = query.select(m).where(cb.equal(m.get("username"), "kim"));
-
-            List<Member> resultList = em.createQuery(cq).getResultList();
+            Team team = new Team();
+            team.setName("TeamA");
+            em.persist(team);
 
 
+            Member member = new Member();
+            member.setUsername("MemberA");
+            member.setTeam(team);
+            em.persist(member);
+
+            em.flush();
+            em.clear();
+
+/*
+            Member resultMember = em.createQuery("SELECT m FROM Member m WHERE m.team = :teamId", Member.class)
+                    .setParameter("teamId",team)
+                    .getSingleResult();
+
+            System.out.println("member = " + resultMember);
+*/
+            List<Member> teamId = em.createQuery("SELECT m FROM Member m WHERE m.team = :teamId", Member.class)
+                    .setParameter("teamId", team)
+                    .getResultList();
+
+            for (Member member1 : teamId) {
+                System.out.println("member1 = " + member1);
+            }
 
 
             tx.commit();
@@ -46,16 +65,5 @@ public class JpaMain {
         }
     }
 
-    private static void printMember(Member member) {
-        System.out.println("member = " + member.getUsername());
-    }
 
-    private static void printMemberAndTeam(Member member) {
-        String userName = member.getUsername();
-        System.out.println("userName = " + userName);
-
-        Team team = member.getTeam();
-        System.out.println("team = " + team);
-
-    }
 }
