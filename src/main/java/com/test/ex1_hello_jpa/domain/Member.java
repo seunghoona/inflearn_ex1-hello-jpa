@@ -17,6 +17,9 @@ import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Data
+@NamedQuery(name = "Member.findByUserName",
+        query = "select m from Member m where m.username = :username"
+)
 public class Member extends BaseEntity{
 
     @Id

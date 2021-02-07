@@ -39,21 +39,10 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-/*
-            Member resultMember = em.createQuery("SELECT m FROM Member m WHERE m.team = :teamId", Member.class)
-                    .setParameter("teamId",team)
+            Member username = em.createNamedQuery("Member.findByUserName", Member.class)
+                    .setParameter("username", member.getUsername())
                     .getSingleResult();
-
-            System.out.println("member = " + resultMember);
-*/
-            List<Member> teamId = em.createQuery("SELECT m FROM Member m WHERE m.team = :teamId", Member.class)
-                    .setParameter("teamId", team)
-                    .getResultList();
-
-            for (Member member1 : teamId) {
-                System.out.println("member1 = " + member1);
-            }
-
+            System.out.println("member.getUsername() = " + member.getUsername());
 
             tx.commit();
             /* 실제 코드가 들어가는 부분 종료 */
