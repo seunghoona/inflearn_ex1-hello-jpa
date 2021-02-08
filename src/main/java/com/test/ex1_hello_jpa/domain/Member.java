@@ -28,8 +28,10 @@ public class Member extends BaseEntity{
     private Long id;
 
     @Column(name = "USERNAME")
-
     private String username;
+
+    @Column(name = "age")
+    private int age;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "TEAM_ID")

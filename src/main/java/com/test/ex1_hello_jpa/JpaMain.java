@@ -39,10 +39,11 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            Member username = em.createNamedQuery("Member.findByUserName", Member.class)
-                    .setParameter("username", member.getUsername())
-                    .getSingleResult();
-            System.out.println("member.getUsername() = " + member.getUsername());
+            int resultCount = em.createQuery("update Member m set m.age=20")
+                    .executeUpdate();
+
+            System.out.println("resultCount = " + resultCount);
+
 
             tx.commit();
             /* 실제 코드가 들어가는 부분 종료 */
